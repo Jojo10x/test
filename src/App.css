@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'LoFont-Bold';
+    src: url('/Users/joey/Desktop/BestJob/Newjobby/work/src/LO Font/Bold/LOFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'LoFont-Medium';
+    src: url('/Users/joey/Desktop/BestJob/Newjobby/work/src/LO Font/Medium/LOFont-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.img1{
+    background-image: url(./Images/man.jpg);
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 54%;
+    width: 38%;
+    border-radius: 50%;
+    margin: 30px 0;
+}
+.logo_container{
+    padding: 5px;
+}
+.logo{
+    background-image: url(./Images/logo.svg);
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-left: 200px;
+}
+.heart{
+    background-image: url(./Images/logo.svg);
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.navy{
+    background-color:  #121624 ;
+    color: white;
+}
+body{
+    background-color: #F9FCFF ;
+}
+.info_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:90vh; 
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    text-align: center;
+}
+h1{
+    color: black;
+    font-family: 'LoFont-Bold', sans-serif;
+}
+
+.likes{
+    margin-top:20px ;
+    margin-bottom:10px ;
+    border: 1px solid rgb(241, 97, 97);
+    padding: 10px;
+    border-radius: 18px;
+    color:rgb(241, 97, 97) ;
+}
+button{
+    background-color: #5969FC ;
+    color: white;
+    background-color: #5969FC;
+    color: white;
+    padding: 12px 140px;
+    border-radius: 35px;
+    border: none;
+    margin: 5px 20px;
+
+}
