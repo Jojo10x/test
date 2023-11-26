@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import "./App.css";
 import { create } from "zustand";
 import { Centrifuge } from "centrifuge";
 
+const API_URL = "https://apidev.lo.ink/v1/unions/4792?fields=counters";
 interface CommunityState {
   audioLikes: number | null;
   updateAudioLikes: (audioLikes: number) => void;
@@ -24,36 +25,50 @@ function App() {
     );
   };
 
-  useEffect(() => {
-    const centrifuge = new Centrifuge(
-      "wss://realtime.lo.ink:4444/connection/websocket",
-      {
-        token:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJleHAiOjE3MDEyNjM1NjR9.eQqkRYLjyjVDdkhfI8Wg01kr_vNgFwiN5Dq6eaCY-pU",
-      }
-    );
+  const [audioLikes, setAudioLikes] = useState(null);
 
-    const sub = centrifuge.newSubscription("dev-union-4792", {
+  const centrifuge = new Centrifuge(
+    "wss://realtime.lo.ink:4444/connection/websocket",
+    {
       token:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjaGFubmVsIjoiZGV2LXVuaW9uLTQ3OTIiLCJzdWIiOiIiLCJleHAiOjE3MDA4MzE1NjR9.SFPxVtE7vh-mZP_-fK2VfiVQqRNfSQiCoW8uLNbEJUU",
-    });
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJleHAiOjE3MDEyNjM1NjR9.eQqkRYLjyjVDdkhfI8Wg01kr_vNgFwiN5Dq6eaCY-pU",
+    }
+  );
 
-    sub.on("publication", (ctx) => {
-      console.log("Received data:", ctx.data);
+  const sub = centrifuge.newSubscription("dev-union-4792", {
+    token:
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjaGFubmVsIjoiZGV2LXVuaW9uLTQ3OTIiLCJzdWIiOiIiLCJleHAiOjE3MDA4MzE1NjR9.SFPxVtE7vh-mZP_-fK2VfiVQqRNfSQiCoW8uLNbEJUU",
+  });
 
-      const audioLikes = ctx.data?.counters?.audioLikes;
+  sub.on("publication", (ctx) => {
+    console.log("Received data:", ctx.data);
 
-      if (audioLikes !== undefined) {
-        console.log("Received audioLikes:", audioLikes);
-        useCommunityStore.getState().updateAudioLikes(audioLikes);
-      } else {
-        console.log("audioLikes property not found in publication data.");
+    const audioLikes = ctx.data?.counters?.audioLikes;
+
+    if (audioLikes !== undefined) {
+      console.log("Received audioLikes:", audioLikes);
+      useCommunityStore.getState().updateAudioLikes(audioLikes);
+    } else {
+      console.log("audioLikes property not found in publication data.");
+    }
+  });
+
+  sub.subscribe();
+
+  centrifuge.connect();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        setAudioLikes(data.data.counters.audioLikes);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    });
+    };
 
-    sub.subscribe();
-
-    centrifuge.connect();
+    fetchData();
 
     return () => {
       sub.unsubscribe();
@@ -61,12 +76,12 @@ function App() {
     };
   }, []);
 
-  const { audioLikes } = useCommunityStore.getState();
+  // const { audioLikes } = useCommunityStore.getState();
 
-  console.log(
-    "Current audioLikes:",
-    audioLikes !== null ? audioLikes : "Loading..."
-  );
+  // console.log(
+  //   "Current audioLikes:",
+  //   audioLikes !== null ? audioLikes : "Loading..."
+  // );
 
   return (
     <div className="home">
@@ -83,16 +98,15 @@ function App() {
           <div className="img1"></div>
           <h1>Никита Чиров</h1>
           <div className="likes">
-            {audioLikes !== null
-              ? `Real-time Audio Likes for ${audioLikes}`
-              : ""}
+            <div className="heart"></div>
+            <div>{audioLikes}</div>
           </div>
           <button onClick={handleClick}>Открыть в LO</button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default App;
 

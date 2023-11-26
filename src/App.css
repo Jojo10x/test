@@ -36,9 +36,22 @@
     background-size: contain;
     margin-left: 200px;
 }
+.likes{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(241, 97, 97);
+    padding: 8px 30px;
+    border-radius: 18px;
+    color: rgb(241, 97, 97);
+    gap: 10px;
+}
 .heart{
-    background-image: url(./Images/logo.svg);
-    height: 20px;
+    background-image: url(./Images/heart.svg);
+    height: 15px;
+    width: 15px;
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -68,14 +81,6 @@ h1{
     font-family: 'LoFont-Bold', sans-serif;
 }
 
-.likes{
-    margin-top:20px ;
-    margin-bottom:10px ;
-    border: 1px solid rgb(241, 97, 97);
-    padding: 10px;
-    border-radius: 18px;
-    color:rgb(241, 97, 97) ;
-}
 button{
     background-color: #5969FC ;
     color: white;
